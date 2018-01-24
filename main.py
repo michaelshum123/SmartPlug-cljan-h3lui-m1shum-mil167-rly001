@@ -1,12 +1,12 @@
 from time import gmtime,strftime
 import time
 import csv
+from SmartMCP3008 import SmartMCP3008
 
-
-ADC_Channel = 0
+ADC_Channel = 2
 #if self == '__init__': 
 output = []
-SmartMCP3008 smartMcp = SmartMCP3008()
+smartMcp = SmartMCP3008()
 for i in range(60):
 	#get time
 	strTime = strftime("%Y-%m-%d %H:%M:%S", gmtime())
@@ -16,9 +16,9 @@ for i in range(60):
 
 	#add to output
 	output.append([strTime, val])
-
+        print(strTime +' '+ str(val))
 	#sleep
-	sleep(60)
+	time.sleep(1)
 
 with open('readings.csv','wb') as csvfile:
 	csvWriter = csv.writer(csvfile)
