@@ -6,7 +6,7 @@ class SmartDHT22():
 	def get_temp_celsius(self):
 		humidity, temp = Adafruit_DHT.read_retry(Adafruit_DHT.DHT22, self.pin )
 		if temp is not None:
-			return int(temp) 
+			return int(temp)
 		else:
 			return -1
 
@@ -22,5 +22,5 @@ class SmartDHT22():
 		humidity, temp = Adafruit_DHT.read_retry(Adafruit_DHT.DHT22, self.pin )
 		if humidity is not None:
 			return int(humiditiy)
-		else
+                else:
 			return -1
