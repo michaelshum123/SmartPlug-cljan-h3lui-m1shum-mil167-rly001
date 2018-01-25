@@ -21,6 +21,6 @@ class SmartDHT22():
 	def get_humidity(self):
 		humidity, temp = Adafruit_DHT.read_retry(Adafruit_DHT.DHT22, self.pin )
 		if humidity is not None:
-			return int(humiditiy)
+			return int(humidity)
                 else:
 			return -1
