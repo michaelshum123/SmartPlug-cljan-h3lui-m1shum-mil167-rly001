@@ -17,14 +17,35 @@ for i in range(60):
 	#add to output
 	output.append([strTime, val])
         print(strTime +' '+ str(val))
-	#sleep
-	time.sleep(1)
+	#sleep for a minute
+	time.sleep(60)
 
 with open('readings.csv','wb') as csvfile:
 	csvWriter = csv.writer(csvfile)
 	for o in output:
 		csvWriter.writerow(o)
 
+
+'''
+#too lazy to do vnc/ssh -x on our friedpi
+from datetime import datetime
+import matplotlib.pyplot as plt
+data = []
+with open('readings.csv','r') as csvfile:
+	csvReader = csv.reader(csvfile)
+	for row in csvReader:
+		data.append(row)
+
+x = [d[0] for d in data]
+y = [d[1] for d in data]
+x = [datetime.strptime(x,'%Y-%m-%d %H:%M:%S') for d in x]
+
+plt.plot_date(x,y,'b-')
+plt.xlabel('time over 1 hour span')
+plt.ylabel('ADC reading of photoresistor in makerspace lab')
+plt.title('ADC Readings of photoresistor over 1 hour span')
+plt.show()
+'''
 
 
 
