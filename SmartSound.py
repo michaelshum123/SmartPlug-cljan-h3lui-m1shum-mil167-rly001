@@ -10,19 +10,19 @@ class SmartSound:
                 self.envChannel = envChn
                 self.audioChannel = audioChn
 	def get_gate(self):
-		if 0 <= pin_num and pin_num <= 7:
+		if 0 <= self.gateChannel and self.gateChannel <= 7:
 			return self.mcp.read_adc(self.gateChannel)
 		else:
 			return -1
 
 	def get_envelope(self):
-		if 0 <= pin_num and pin_num <= 7:
-			return self.mcp.read_adc(self.evnChannel)
+		if 0 <= self.envChannel and self.envChannel<= 7:
+			return self.mcp.read_adc(self.envChannel)
 		else:
 			return -1
 
 	def get_audio(self):
-		if 0 <= pin_num and pin_num <= 7:
+		if 0 <= self.audioChannel and self.audioChannel <= 7:
 			return self.mcp.read_adc(self.audioChannel)
 		else:
 			return -1
