@@ -8,15 +8,18 @@ DHT_Pin = 4 #GPIO pin, not HW pin, that receives data
 #if self == '__init__':
 output = []
 smartMcp = SmartMCP3008()
+smartSound = SmartSound(4,3,2)
+'''
 smartDHT = SmartDHT22(DHT_Pin)
+
 for i in range(60):
 	#get time
 	strTime = strftime("%Y-%m-%d %H:%M:%S", gmtime())
 
 	#get val
 	valLight = smartMcp.read(ADC_Channel)
-        valTemp = smartDHT.get_temp_fahrenheit()
-        valHum = smartDHT.get_humidity()
+    valTemp = smartDHT.get_temp_fahrenheit()
+    valHum = smartDHT.get_humidity()
 	#add to output
 	output.append([strTime, valLight, valTemp, valHum])
         print(strTime +' '+ str(val))
@@ -28,7 +31,27 @@ with open('readings.csv','w') as csvfile:
 	for o in output:
 		csvWriter.writerow(o)
 
+'''
 
+#Smart Sound
+for i in range(60):
+	#get time
+	strTime = strftime("%Y-%m-%d %H:%M:%S", gmtime())
+
+	#get val
+	valAudio = smartSound.get_audio()
+    valEnv = smartSound.get_envelope()
+    valGate = smartSound.get_gate()
+	#add to output
+	output.append([strTime, valAudio, valEnv, valGate])
+    print(strTime +' '+ str(valAudio)+' '+str(valEnv) + ' '+str(valGate))
+	#sleep for a minute
+	time.sleep(60)
+
+with open('readingsSound.csv','w') as csvfile:
+	csvWriter = csv.writer(csvfile)
+	for o in output:
+		csvWriter.writerow(o)
 '''
 #too lazy to do vnc/ssh -x on our friedpi
 from datetime import datetime
