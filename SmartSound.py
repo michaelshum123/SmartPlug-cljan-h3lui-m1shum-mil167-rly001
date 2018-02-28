@@ -6,9 +6,9 @@ class SmartSound:
 		self.SPI_PORT = 0
 		self.SPI_DEVICE = 0
 		self.mcp = Adafruit_MCP3008.MCP3008( spi=SPI.SpiDev(self.SPI_PORT, self.SPI_DEVICE) )
-                self.gateChannel = gateChn
-                self.envChannel = envChn
-                self.audioChannel = audioChn
+		self.gateChannel = gateChn
+		self.envChannel = envChn
+		self.audioChannel = audioChn
 	def get_gate(self):
 		if 0 <= self.gateChannel and self.gateChannel <= 7:
 			return self.mcp.read_adc(self.gateChannel)
