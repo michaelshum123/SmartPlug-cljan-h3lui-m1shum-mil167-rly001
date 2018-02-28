@@ -1,0 +1,18 @@
+<!-- mlapp/templates/madlibs.html -->
+
+{% extends "layout.html" %}
+
+    {% block head %}
+    <script src="static/madlib.js"></script>
+    <link rel="stylesheet" type="text/css" href="static/style.css">
+    {% endblock %}
+
+    {% block body %}
+    <div id="madlib-div">
+        {% for entry in entries %}
+        <p id="{{ entry.business_name | lower() }}-ml">{{entry.business_name}} is a {{entry.business_type}} organization that serves {{entry.market_type}} customers who need {{entry.job_to_be_done}}. We will generate revenue using a {{entry.revenue_model}}.</p>
+        {% else %}
+        <em> Unbelievable! There are no companies so far!</em>
+        {% endfor %}
+    </div>
+    {% endblock %}

@@ -1,0 +1,41 @@
+button{
+  padding: 15px;
+  border-radius: 8px;
+  /*border: 2px solid;
+  box-shadow: 5px 5px 10px grey;*/
+  margin: 0 20px;
+}
+h2,h4{
+  text-align: center;
+}
+div{
+  margin: 200px auto;
+  text-align: center;
+  width: 500px;
+}
+p{
+  display: none;
+  max-width: 500px;
+}
+body{
+  background: linear-gradient(to bottom right,#5CD6FF, #B6FF5C);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+#amazon-btn{
+  background: linear-gradient(to bottom right, orange, white);
+}
+
+#apple-btn{
+  background: linear-gradient(to bottom right, black, white);
+
+}
+#netflix-btn{
+  background: linear-gradient(to bottom right, red, white);
+
+}
+
+#tesla-btn{
+  background: linear-gradient(to bottom right, #858585, white);
+
+}

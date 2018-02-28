@@ -1,0 +1,24 @@
+<!-- mlapp/templates/layout.html -->
+
+<!doctype html>
+<html>
+    <head>
+        <title>Web Mad-libs on Flask!</title>
+       	{% block head %}
+       	{% endblock %}
+    </head>
+
+    <body>
+    	<h2> Web Mad-libs on Flask!!!</h2>
+      	<h4> By Michael Shum </h4>
+      	<div id="btn-div">
+        	<button id="amazon-btn">Amazon</button>
+        	<button id="apple-btn">Apple</button>
+        	<button id="netflix-btn">Netflix</button>
+        	<button id="tesla-btn">Tesla</button>
+      	</div>
+        
+        {% block body %}
+        {% endblock %}
+    </body>
+</html>
