@@ -3,8 +3,9 @@ import sqlite3
 class dbtool:
     def __init__(self):
         self.conn = sqlite3.connect('potatosalad')
+        self.conn.row_factory = sqlite3.Row
         self.c    = self.conn.cursor()
-
+        
     def insertRow(self,table, colVals):
         qStr = "INSERT INTO " + str(table) + " VALUES ("
         for c in colVals:
@@ -23,13 +24,13 @@ class dbtool:
     def getRows(self,table,num):
         qStr = "SELECT * FROM " + table
         if num == -1:
-            qStr += 'ORDER BY time DESC;'
+            qStr += ' '
         else:
-            qStr += 'ORDER BY time DESC LIMIT ' + str(num) + ';'
+            qStr += ' LIMIT ' + str(num) + ';'
         print(qStr)
-        self.c.execute(qStr)
+        ret = self.c.execute(qStr)
         self.conn.commit()
-
+        return ret.fetchall()
     def close(self):
         self.conn.close()
 

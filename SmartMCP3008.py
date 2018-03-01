@@ -1,4 +1,5 @@
-from  Adafruit_GPIO.GPIO import *
+#from  Adafruit_GPIO.GPIO import *
+import Adafruit_GPIO.SPI as SPI
 import Adafruit_MCP3008
 
 class SmartMCP3008:

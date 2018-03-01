@@ -36,8 +36,8 @@ def get_db():
 
 def get_sdb():
     if not hasattr(g,'sdb'):
-        g.sdb = sensordb()
-    return g.sdb()
+        g.sdb = sensordb.sensordb()
+    return g.sdb
 # Create the database (we do this via command line!!!)
 def init_db():
     """Initializes the database."""
@@ -70,20 +70,9 @@ def home():
     dht = s.get_DHT22(10)
     sound = s.get_Sound(10)
     photo = s.get_Photo(10)
+    print(dht)
+    print(sound)
+    print(photo)
 
     return render_template('home.html',dht=dht, sound=sound, photo=photo)
 
-@app.route('/get_example')
-def GET_Example() :
-    db = get_db()
-    cur = db.execute('SELECT first_name, last_name, age FROM users ORDER BY id DESC')
-    the_users = cur.fetchall()
-    return render_template('get_example.html', entries=the_users)
-
-@app.route('/post_example', methods=['POST'])
-def POST_Example():
-    db = get_db()
-    db.execute('INSERT INTO users (first_name, last_name, age) VALUES (?, ?, ?)',
-                 [request.form['first'], request.form['last'], request.form['age']])
-    db.commit()
-    return redirect('/get_example')

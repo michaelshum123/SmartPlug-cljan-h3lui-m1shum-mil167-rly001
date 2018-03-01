@@ -6,7 +6,7 @@ from time import gmtime, strftime
 import time
 class sensordb:
     def __init__(self):
-        self.db = dbtool()
+        self.db = dbtool.dbtool()
         self.photo = SmartMCP3008()
         self.dht = SmartDHT22(4)
         self.sound = SmartSound(4,3,2)
@@ -21,13 +21,13 @@ class sensordb:
         self.db.makeDB(self.PHOTO_TABLE,[['date','varchar(30)'],['light','int']])
             
     def get_DHT22(self,num):
-        self.db.getRows(self.DHT_TABLE, num)
+        return self.db.getRows(self.DHT_TABLE, num)
 
     def get_Sound(self,num):
-        self.db.getRows(self.SOUND_TABLE, num)
+        return self.db.getRows(self.SOUND_TABLE, num)
 
     def get_Photo(self,num):
-        self.db.getRows(self.PHOTO_TABLE, num)
+        return self.db.getRows(self.PHOTO_TABLE, num)
 
     def set_DHT22(self):
         #read DHT and then write to sql
