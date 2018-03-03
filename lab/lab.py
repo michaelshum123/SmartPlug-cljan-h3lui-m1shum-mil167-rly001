@@ -62,17 +62,56 @@ def close_db(error):
     """Closes the database again at the end of the request."""
     if hasattr(g, 'sqlite_db'):
         g.sqlite_db.close()
-    
+
 ##### ROUTES #####
-@app.route('/')
+@app.route('/',methods=['GET','POST'])
 def home():
     s = get_sdb()
-    dht = s.get_DHT22(10)
-    sound = s.get_Sound(10)
-    photo = s.get_Photo(10)
-    print(dht)
-    print(sound)
-    print(photo)
+    dhtCnt = 10
+    soundCnt = 10
+    photoCnt = 10
+
+    if request.method == 'POST':
+        if 'dht' in request.form.keys():
+            dhtCount = -1
+        elif 'sound' in request.form.keys():
+            soundCnt = -1
+        elif 'photo' in request.form.keys():
+            photoCnt = -1
+
+    dht = s.get_DHT22(dhtCnt)
+    sound = s.get_Sound(soundCnt)
+    photo = s.get_Photo(photoCnt)
+
+    return render_template('home.html',dht=dht, sound=sound, photo=photo)
+
+@app.route('/dht')
+def show_dht():
+    s = get_sdb()
+
+    dht = s.get_DHT22(-1)
+    sound = []
+    photo = []
+
+    return render_template('home.html',dht=dht, sound=sound, photo=photo)
+
+@app.route('/photo')
+def show_photo():
+    s = get_sdb()
+
+    dht = []
+    sound = []
+    photo = s.get_Photo(-1)
+
+    return render_template('home.html',dht=dht, sound=sound, photo=photo)
+
+@app.route('/sound')
+def show_sound():
+    s = get_sdb()
+
+    dht = []
+    sound = s.get_Sound(-1)
+    photo = []
 
     return render_template('home.html',dht=dht, sound=sound, photo=photo)
 

@@ -8,34 +8,50 @@ button{
 h2,h4{
   text-align: center;
 }
-div{
-  margin: 200px auto;
+div.outer{
+  margin: 50px auto;
   text-align: center;
-  width: 500px;
 }
-p{
-  display: none;
-  max-width: 500px;
+div.inner{
+ display: inline-block; 
 }
+form{
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+table{
+  display: inline-table;
+}
+
 body{
-  background: linear-gradient(to bottom right,#5CD6FF, #B6FF5C);
+  /*background: linear-gradient(to bottom right,#5CD6FF, #B6FF5C);
   background-repeat: no-repeat;
-  background-attachment: fixed;
+  background-attachment: fixed;*/
+  height: 100vh;
+  font-family: "Comic Sans MS";
+  background-image: url("http://i1.kym-cdn.com/photos/images/original/000/663/060/024.png");
+  background-repeat: repeat;
 }
-#amazon-btn{
-  background: linear-gradient(to bottom right, orange, white);
-}
-
-#apple-btn{
-  background: linear-gradient(to bottom right, black, white);
-
-}
-#netflix-btn{
-  background: linear-gradient(to bottom right, red, white);
-
+table{
+  margin: auto 20px;
+  border: 1px solid black;
+  border-collapse: collapse;
 }
 
-#tesla-btn{
-  background: linear-gradient(to bottom right, #858585, white);
-
+th{
+  padding: 5px;
+  border: 1px dotted red;
+  
+}
+td{
+  padding: 5px;
+  border: 1px dashed blue;
+  text-align: center;
+}
+tr:nth-child(odd){
+  background-color: #ff33da;
+}
+tr:nth-child(even){
+  background-color:#00fa2e;
 }
