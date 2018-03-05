@@ -1,4 +1,4 @@
-from . import dbtool
+import dbtool
 #from SmartMCP3008 import SmartMCP3008
 #from SmartDHT22   import SmartDHT22
 #from SmartSound   import SmartSound
@@ -28,26 +28,26 @@ class sensordb:
 
     def get_Photo(self,num):
         return self.db.getRows(self.PHOTO_TABLE, num)
-'''
-    def set_DHT22(self):
+     
+    def set_DHT22(self, temp,hum):
         #read DHT and then write to sql
         strTime = self.getTime()
-        temp = self.dht.get_temp_fahrenheit()
-        hum  = self.dht.get_humidity()
+        #temp = self.dht.get_temp_fahrenheit()
+        #hum  = self.dht.get_humidity()
         self.db.insertRow( self.DHT_TABLE, [strTime, temp, hum] )
         return [temp,hum]
-
-    def set_Sound(self):
+   
+    def set_Sound(self, audio, env, gate):
         strTime = self.getTime()
-        audio = self.sound.get_audio()
-        env   = self.sound.get_envelope()
-        gate  = self.sound.get_gate()
+        #audio = self.sound.get_audio()
+        #env   = self.sound.get_envelope()
+        #gate  = self.sound.get_gate()
         self.db.insertRow( self.SOUND_TABLE, [strTime,audio,env,gate] )
         return [audio,env,gate]
 
-    def set_Photo(self):
+    def set_Photo(self, light):
         strTime = self.getTime()
-        light = self.photo.read(1)
+        #light = self.photo.read(1)
         self.db.insertRow( self.PHOTO_TABLE, [strTime, light] )
         return light
 
@@ -61,6 +61,6 @@ class sensordb:
             print(self.set_DHT22())
             print(self.set_Photo())
             time.sleep(1)
-'''
+
 
 

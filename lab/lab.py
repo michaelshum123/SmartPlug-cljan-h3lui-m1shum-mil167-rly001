@@ -4,6 +4,7 @@ import os
 from flask import Flask, render_template, g, request, redirect
 from sqlite3 import dbapi2 as sqlite3
 from . import sensordb
+import json
 ##### APP SETUP #####
 app = Flask(__name__)
 
@@ -114,4 +115,37 @@ def show_sound():
     photo = []
 
     return render_template('home.html',dht=dht, sound=sound, photo=photo)
+
+@app.route('/rest_dht', methods=['GET','POST'])
+def rest_dht():
+    s = get_sdb()
+    if request.method == 'GET':
+        count = request.args.get('count', default=5, type=int)
+        return s.get_DHT22(count)
+    elif request.method == 'POST':
+        data = request.get_json()
+        s.set_DHT22(data['temp'],data['hum'])
+        return {"success":True}
+
+@app.route('/rest_sound',methods=['GET','POST'])
+def rest_sound:
+    s = get_sdb()
+    if request.method == 'GET':
+        count = request.args.get('count', default=5, type=int)
+        return s.get_Sound(count)
+    elif request.method == 'POST':
+        data = request.get_json()
+        s.set_Sound(data['audio'],data['env'],data['gate'])
+        return {"success":True}
+        
+@app.route('/rest_photo',methods=['GET','POST'])
+def rest_photo:
+    if request.method == 'GET':
+        count = request.args.get('count', default=5, type=int)
+        return s.get_Photo(count)
+    elif request.method == 'POST':
+        data = request.get_json()
+        s.set_DHT22(data['light'])
+        return {"success":True}
+
 
