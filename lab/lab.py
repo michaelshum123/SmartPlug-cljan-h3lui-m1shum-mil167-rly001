@@ -1,7 +1,7 @@
 # lab/lab.py
 
 import os
-from flask import Flask, render_template, g, request, redirect
+from flask import Flask, render_template, g, request, redirect, jsonify
 from sqlite3 import dbapi2 as sqlite3
 from . import sensordb
 import json
@@ -121,31 +121,48 @@ def rest_dht():
     s = get_sdb()
     if request.method == 'GET':
         count = request.args.get('count', default=5, type=int)
-        return s.get_DHT22(count)
+        output = []
+        for r in s.get_DHT22(count):
+            newRow = {'date':r[0], 'temp':r[1], 'hum':r[2]}
+            output.append(newRow)
+        
+        return jsonify(output)
     elif request.method == 'POST':
-        data = request.get_json()
-        s.set_DHT22(data['temp'],data['hum'])
-        return {"success":True}
+        temp = request.form.get('temp')
+        hum  = request.form.get('hum')
+        print(temp)
+        print(hum)
+        s.set_DHT22(temp, hum)
+        return jsonify({"success":True})
 
 @app.route('/rest_sound',methods=['GET','POST'])
-def rest_sound:
+def rest_sound():
     s = get_sdb()
     if request.method == 'GET':
         count = request.args.get('count', default=5, type=int)
-        return s.get_Sound(count)
+        output = []
+        for r in s.get_Sound(count):
+            newRow = [r[0], r[1], r[2], r[3]]
+            output.append(newRow)
+        return jsonify(output)
     elif request.method == 'POST':
         data = request.get_json()
         s.set_Sound(data['audio'],data['env'],data['gate'])
-        return {"success":True}
+        return jsonify({"success":True})
         
 @app.route('/rest_photo',methods=['GET','POST'])
-def rest_photo:
+def rest_photo():
     if request.method == 'GET':
         count = request.args.get('count', default=5, type=int)
-        return s.get_Photo(count)
+        output = []
+        for r in s.get_Photo(count):
+            newRow = [r[0], r[1]]
+            output.append(newRow)
+        
+        return jsonify(output)
     elif request.method == 'POST':
         data = request.get_json()
         s.set_DHT22(data['light'])
-        return {"success":True}
+        return jsonify({"success":True})
 
 
