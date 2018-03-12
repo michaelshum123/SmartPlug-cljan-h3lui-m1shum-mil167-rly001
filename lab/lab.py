@@ -69,22 +69,24 @@ def close_db(error):
 def home():
     s = get_sdb()
     dhtCnt = 10
-    soundCnt = 10
+    #soundCnt = 10
     photoCnt = 10
 
     if request.method == 'POST':
         if 'dht' in request.form.keys():
             dhtCount = -1
+        '''
         elif 'sound' in request.form.keys():
             soundCnt = -1
+        '''
         elif 'photo' in request.form.keys():
             photoCnt = -1
 
     dht = s.get_DHT22(dhtCnt)
-    sound = s.get_Sound(soundCnt)
+    #sound = s.get_Sound(soundCnt)
     photo = s.get_Photo(photoCnt)
 
-    return render_template('home.html',dht=dht, sound=sound, photo=photo)
+    return render_template('home.html',dht=dht, '''sound=sound,''' photo=photo)
 
 @app.route('/dht')
 def show_dht():
@@ -105,7 +107,7 @@ def show_photo():
     photo = s.get_Photo(-1)
 
     return render_template('home.html',dht=dht, sound=sound, photo=photo)
-
+'''
 @app.route('/sound')
 def show_sound():
     s = get_sdb()
@@ -115,7 +117,7 @@ def show_sound():
     photo = []
 
     return render_template('home.html',dht=dht, sound=sound, photo=photo)
-
+'''
 @app.route('/rest_dht', methods=['GET','POST'])
 def rest_dht():
     s = get_sdb()
@@ -125,7 +127,7 @@ def rest_dht():
         for r in s.get_DHT22(count):
             newRow = {'date':r[0], 'temp':r[1], 'hum':r[2]}
             output.append(newRow)
-        
+
         return jsonify(output)
     elif request.method == 'POST':
         temp = request.form.get('temp')
@@ -134,7 +136,7 @@ def rest_dht():
         print(hum)
         s.set_DHT22(temp, hum)
         return jsonify({"success":True})
-
+'''
 @app.route('/rest_sound',methods=['GET','POST'])
 def rest_sound():
     s = get_sdb()
@@ -147,9 +149,11 @@ def rest_sound():
         return jsonify(output)
     elif request.method == 'POST':
         data = request.get_json()
+        if not( 'audio' in data and 'env' in data and 'gate' in data):
+            return jsonify({"success":False,"msg":"A value(s) could not be found"})
         s.set_Sound(data['audio'],data['env'],data['gate'])
         return jsonify({"success":True})
-        
+'''
 @app.route('/rest_photo',methods=['GET','POST'])
 def rest_photo():
     if request.method == 'GET':
@@ -158,7 +162,7 @@ def rest_photo():
         for r in s.get_Photo(count):
             newRow = [r[0], r[1]]
             output.append(newRow)
-        
+
         return jsonify(output)
     elif request.method == 'POST':
         data = request.get_json()
