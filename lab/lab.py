@@ -3,6 +3,7 @@
 import os
 from flask import Flask, render_template, g, request, redirect, jsonify
 from sqlite3 import dbapi2 as sqlite3
+from datetime import date
 from . import sensordb
 import json
 ##### APP SETUP #####
@@ -65,29 +66,33 @@ def close_db(error):
         g.sqlite_db.close()
 
 ##### ROUTES #####
-@app.route('/',methods=['GET','POST'])
+@app.route('/')
 def home():
     s = get_sdb()
-    dhtCnt = 10
-    #soundCnt = 10
-    photoCnt = 10
+    dht  = s.get_DHT22(1)
+    temp = dht[0][1]
+    water = False
+    if dht[0][2] < 20:
+        water = True
+    light = 0.0
+    photos = s.get_Photo(60*24) #assumes 1 reading every minute
 
-    if request.method == 'POST':
-        if 'dht' in request.form.keys():
-            dhtCount = -1
-        '''
-        elif 'sound' in request.form.keys():
-            soundCnt = -1
-        '''
-        elif 'photo' in request.form.keys():
-            photoCnt = -1
+    startdate = photos[-1][0][:10] #get most recent reading
 
-    dht = s.get_DHT22(dhtCnt)
-    #sound = s.get_Sound(soundCnt)
-    photo = s.get_Photo(photoCnt)
+    today = [d for d in photos if d[0][:10]==startdate and d[1] > 800]
+    startTime = today[0][0].split()[1].split(":")[0]
+    endTime   = today[-1][0].split()[1].split(":")[0]
+    light =int( endTime) - int(startTime)
 
-    return render_template('home.html',dht=dht, '''sound=sound,''' photo=photo)
-
+    datestr = date.today().strftime("%B %d, %Y")
+    return render_template('home.html',doWater=water,light=light,date=datestr, temp=temp )
+@app.route('/viewall')
+def viewall():
+    s = get_sdb()
+    dht = s.get_DHT22(-1)
+    photo = s.get_Photo(-1)
+    return render_template('viewall.html',dht=dht,photo=photo)
+'''
 @app.route('/dht')
 def show_dht():
     s = get_sdb()
@@ -107,7 +112,7 @@ def show_photo():
     photo = s.get_Photo(-1)
 
     return render_template('home.html',dht=dht, sound=sound, photo=photo)
-'''
+
 @app.route('/sound')
 def show_sound():
     s = get_sdb()
@@ -127,7 +132,6 @@ def rest_dht():
         for r in s.get_DHT22(count):
             newRow = {'date':r[0], 'temp':r[1], 'hum':r[2]}
             output.append(newRow)
-
         return jsonify(output)
     elif request.method == 'POST':
         temp = request.form.get('temp')
@@ -136,7 +140,7 @@ def rest_dht():
         print(hum)
         s.set_DHT22(temp, hum)
         return jsonify({"success":True})
-'''
+
 @app.route('/rest_sound',methods=['GET','POST'])
 def rest_sound():
     s = get_sdb()
@@ -153,7 +157,7 @@ def rest_sound():
             return jsonify({"success":False,"msg":"A value(s) could not be found"})
         s.set_Sound(data['audio'],data['env'],data['gate'])
         return jsonify({"success":True})
-'''
+
 @app.route('/rest_photo',methods=['GET','POST'])
 def rest_photo():
     if request.method == 'GET':
@@ -166,7 +170,7 @@ def rest_photo():
         return jsonify(output)
     elif request.method == 'POST':
         data = request.get_json()
-        s.set_DHT22(data['light'])
+        s.set_Photo(data['light'])
         return jsonify({"success":True})
 
 

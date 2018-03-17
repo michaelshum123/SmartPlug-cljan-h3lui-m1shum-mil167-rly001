@@ -8,12 +8,37 @@ button{
 h2,h4{
   text-align: center;
 }
-div.outer{
-  margin: 50px auto;
-  text-align: center;
+a{
+  text-align:center;
+  display:block;
 }
+div.outer{
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+}
+
 div.inner{
- display: inline-block; 
+ /*display: inline-block; */
+ width: 30vw;
+ /*height: 10vh;*/
+ padding: 5px;
+ margin: 5px;
+ border-style: ridge;
+ background: linear-gradient(to top right, #FFABC8,#F2FFAB);
+}
+
+div.inner.light{
+  background: linear-gradient(to top right, #FFFF00,#00FFD5);
+}
+div.inner.wet{
+  background: linear-gradient(to top right, #D4A190, #C390D4);
+}
+
+div.inner.dry{
+  background: linear-gradient(to top right, "#90C3D4","#AFD490");
 }
 form{
   margin-top: 10px;
@@ -25,12 +50,11 @@ table{
 }
 
 body{
-  /*background: linear-gradient(to bottom right,#5CD6FF, #B6FF5C);
+  background: linear-gradient(to bottom right,#5CD6FF, #B6FF5C);
   background-repeat: no-repeat;
-  background-attachment: fixed;*/
-  height: 100vh;
+  background-attachment: fixed;
+  max-height: 100vh;
   font-family: "Comic Sans MS";
-  background-image: url("http://i1.kym-cdn.com/photos/images/original/000/663/060/024.png");
   background-repeat: repeat;
 }
 table{
@@ -50,8 +74,8 @@ td{
   text-align: center;
 }
 tr:nth-child(odd){
-  background-color: #ff33da;
+  background-color: white;
 }
 tr:nth-child(even){
-  background-color:#00fa2e;
+  background-color: lightgrey;
 }

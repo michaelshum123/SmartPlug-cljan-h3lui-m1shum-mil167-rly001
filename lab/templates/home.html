@@ -8,88 +8,25 @@
     {% endblock %}
 
     {% block body %}
+    <h2>{{ date }} </h2>
     <div class="outer"> 
-      {% if dht %}
       <div class="inner">
-        <table style="display: inline-block;">
-          <tr>
-            <th>Date</th>
-            <th>Temp</th>
-            <th>Humidity</th>
-          </tr>
-          {% for v in dht %}
-          <tr>
-            <td>{{ v.date }}</td>
-            <td>{{v.temp}}</td>
-            <td>{{v.hum}}</td>
-          </tr>
-          {%else%}
-            <tr><td colspan='3'>poop!</td></tr>
-          {% endfor %}
-        </table>
-        {% if 'dht' not in request.path %}
-        <form action="{{ url_for('show_dht') }}" method="GET">
-          <input type="submit" name="dht" value="Show All"/>
-        </form>
-        {% else %}
-        <form action="{{ url_for('home') }}" method="GET">
-          <input type="submit" value="Home">
-        </form>
-        {% endif %}
+        Temperature: {{temp}} F 
       </div>
-      {% endif %}
-    {# 
-      {% if sound %}
-      <div class="inner">
-        <table style="display: inline-block">
-          <tr>
-            <th>Date</th>
-            <th>Audio</th>
-            <th>Envelope</th>
-            <th>Gate</th>
-          </tr>
-          {% for v in sound %}
-          <tr>
-            <td>{{ v.date }}</td> <td>{{v.audio}}</td> <td>{{v.env}}</td> <td>{{v.gate}}</td>
-          </tr>
-          {%else%}
-          <tr><td colspan='4'>poop</td></tr>
-          {% endfor %}
-        </table>
-        {% if 'sound' not in request.path %}
-        <form action="{{ url_for('show_sound') }}" method="GET">
-          <input type="submit" name="sound" value="Show All"/>
-        </form>
-        {% else %}
-        <form action="{{ url_for('home') }}" method="GET">
-          <input type="submit" value="Home">
-        </form>
-        {% endif %}
+
+      <div class="inner light">
+        {{light }} Hours of Sunglight Today
       </div>
-      {% endif %}
-    #}
-      {% if photo %}
-      <div class="inner">
-        <table style="display: inline-block">
-          <tr>
-            <th>Date</th>
-            <th>Light</th>
-          </tr>
-          {% for v in photo %}
-          <tr><td> {{v.date}}</td><td> {{v.light}} </td>
-            {%else%} <tr><td colspan='2'>poop</td></tr>
-  	      {%endfor%}
-        </table>
-        {% if 'photo' not in request.path %}
-        <form action="{{ url_for('show_photo') }}" method="GET">
-          <input type="submit" name="photo" value="Show All"/>
-        </form>
-        {% else %}
-        <form action="{{ url_for('home') }}" method="GET">
-          <input type="submit" value="Home">
-        </form>
-        {% endif %}
+
+      {% if doWater %}
+      <div class="inner dry">
+        Needs watering!
+      </div>
+      {% else %}
+      <div class="inner wet">
+        Water OK!
       </div>
       {% endif %}
     </div>
-{% endblock %}
+    <a href={{url_for('viewall')}}>View All</a>
+    {% endblock %}
